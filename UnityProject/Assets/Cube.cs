@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using UnityEngine.UI;
 using UnityEngine;
 
-#if UNITY_IOS || UNITY_TVOS
+#if UNITY_IOS
 public class NativeAPI {
     [DllImport("__Internal")]
     public static extern void showHostMainWindow(string lastStringColor);
@@ -42,6 +42,7 @@ public class Cube : MonoBehaviour
     void showHostMainWindow()
     {
 #if UNITY_ANDROID
+        appendToText("ANDROID");
         try
         {
             AndroidJavaClass jc = new AndroidJavaClass("com.company.product.OverrideUnityActivity");
@@ -52,8 +53,11 @@ public class Cube : MonoBehaviour
             appendToText("Exception during showHostMainWindow");
             appendToText(e.Message);
         }
-#elif UNITY_IOS || UNITY_TVOS
+#elif UNITY_IOS
+        appendToText("IOS");
         NativeAPI.showHostMainWindow(lastStringColor);
+#else
+        appendToText("原生调用");
 #endif
     }
 
